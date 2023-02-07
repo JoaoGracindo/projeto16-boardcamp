@@ -6,3 +6,9 @@ export async function getGamesController(req, res){
 
     return res.send(games.rows);
 }
+
+
+export async function postGamesController(req, res){
+
+
+}
