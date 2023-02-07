@@ -11,9 +11,9 @@ export async function postGamesMiddleware(req, res, next){
         return res.status(400).send(errorArray);
     }
 
-    const gameExists = await database.query('SELECT * FROM games WHERE name = $1;', [newGame.name]);
+    const {rows} = await database.query('SELECT * FROM games WHERE name = $1;', [newGame.name]);
 
-    if(gameExists) return res.status(409).send('Name already in use.');
+    if(rows[0]) return res.status(409).send('Name already in use.');
 
     next();
 }
