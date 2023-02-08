@@ -17,3 +17,23 @@ export async function postCustomerMiddleware(req, res, next){
 
     next();
 }
+
+export async function putCustomerMiddleware(req, res, next){
+
+    const newCustomer = req.body;
+    const {id} = req.params;
+
+    const {error} = customerSchema.validate(newCustomer, {abortEarly: false});
+
+    if(error){
+        const errorArray = error.details.map((obj) => obj.message);
+        return res.status(400).send(errorArray);
+    }
+
+    const {rows} = await database.query('SELECT * FROM customers WHERE cpf=$1 AND id<>$2;', [newCustomer.cpf, id]);
+
+
+    if(rows[0]) return res.status(409).send('Invalid user or CPF.');
+
+    next();
+}

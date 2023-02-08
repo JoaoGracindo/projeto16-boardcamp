@@ -3,10 +3,14 @@ import { Router } from "express";
 import {
      getCustomersController,
      getCustomersByIdController,
-     postCustomersController
-    } from "../controllers/customersControllers.js";
+     postCustomersController,
+     putCustomersController
+} from "../controllers/customersControllers.js";
     
-import { postCustomerMiddleware } from "../middlewares/customersMiddlewares.js";
+import { 
+    postCustomerMiddleware,
+    putCustomerMiddleware
+} from "../middlewares/customersMiddlewares.js";
 
 
 const router = Router();
@@ -17,7 +21,7 @@ router.get('/customers/:id', getCustomersByIdController);
 
 router.post('/customers', postCustomerMiddleware, postCustomersController);
 
-router.put('/customers/:id');
+router.put('/customers/:id', putCustomerMiddleware, putCustomersController);
 
 
 export default router;
