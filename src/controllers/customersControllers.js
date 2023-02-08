@@ -23,3 +23,17 @@ export async function getCustomersByIdController(req, res){
         return res.status(500).send(err.message);
     }
 }
+
+export async function postCustomersController(req, res){
+
+    const {name, phone, cpf, birthday} = req.body;
+
+    try{
+        await database.query('INSERT INTO games (name, phone, cpf, birthday) VALUES ($1, $2, $3, $4);', [name, phone, cpf, birthday]);
+        return res.sendStatus(201);
+
+    }catch(err){
+        return res.status(500).send(err.message);
+
+    }
+}
