@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 import database from '../database/database.js';
 
 export async function getRentalsController(req, res){
@@ -22,14 +24,24 @@ export async function getRentalsController(req, res){
 export async function postRentalsController(req, res){
 
     const {customerId, gameId, daysRented} = req.body;
+    const {rows} = await database.query('SELECT pricePerDay FROM games WHERE id=$1;', [gameId]);
+    const originalPrice = rows[0] * daysRented;
 
     const rentalInfo = {
         customerId,
         gameId,
-        rentDate: '2021-06-20',    
+        rentDate: dayjs().format('YYYY-MM-DD'),    
         daysRented,              
         returnDate: null,           
-        originalPrice: 4500,       
+        originalPrice,       
         delayFee: null             
+    }
+
+    try{
+        await database.query('INSERT INTO rentals VALUES ($1, $2, $3, $4, $5, $6, $7);', [...rentalInfo]);
+        return res.sendStatus(201);
+
+    }catch(err){
+        return res.status(500).send(err.message);
     }
 }
