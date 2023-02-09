@@ -5,6 +5,7 @@ dotenv.config();
 
 import gamesRouter from './routers/gamesRouter.js';
 import customersRouter from './routers/customersRouter.js';
+import rentalsRouter from './routers/rentalsRouter.js';
 
 const PORT = process.env.PORT;
 
@@ -14,5 +15,6 @@ app.use(cors());
 
 app.use(gamesRouter);
 app.use(customersRouter);
+app.use(rentalsRouter);
 
 app.listen(PORT, () => console.log(`Server is running in port ${PORT}...`));

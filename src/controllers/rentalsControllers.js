@@ -18,3 +18,18 @@ export async function getRentalsController(req, res){
         return res.status(500).send(err.message);
     }
 }
+
+export async function postRentalsController(req, res){
+
+    const {customerId, gameId, daysRented} = req.body;
+
+    const rentalInfo = {
+        customerId,
+        gameId,
+        rentDate: '2021-06-20',    
+        daysRented,              
+        returnDate: null,           
+        originalPrice: 4500,       
+        delayFee: null             
+    }
+}
