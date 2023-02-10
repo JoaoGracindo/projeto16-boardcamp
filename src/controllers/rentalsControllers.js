@@ -74,7 +74,7 @@ export async function deleteRentalController(req, res){
     const {id} = req.params;
 
     try{
-        await database.query('DELETE rentals WHERE id=$1;', [id]);
+        await database.query('DELETE FROM rentals WHERE id=$1;', [id]);
         return res.sendStatus(200);
 
     }catch(err){
