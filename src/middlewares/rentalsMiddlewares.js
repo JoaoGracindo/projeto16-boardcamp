@@ -10,7 +10,7 @@ export async function postRentalsMiddleware(req, res, next){
     try{
         validCustomer = await database.query('SELECT * FROM customers WHERE id=$1;', [customerId]);
         validGame = await database.query('SELECT * FROM games WHERE id=$1;', [gameId]);
-        gamesRented = await database.query('SELECT * FROM rentals WHERE gameId=$1 AND returnDate=null', [gameId]);
+        gamesRented = await database.query('SELECT * FROM rentals WHERE "gameId"=$1 AND "returnDate"=null', [gameId]);
 
     }catch(err){
         return res.status(500).send(err.message);
