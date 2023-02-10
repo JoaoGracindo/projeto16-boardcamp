@@ -4,7 +4,7 @@ export async function postRentalsMiddleware(req, res, next){
 
     const {customerId, gameId, daysRented} = req.body;
 
-    if(isNaN(customerId) || isNaN(gameId) || isNaN(daysRented))return res.sendStatus(400);
+    if(!(customerId > 0) || !(gameId > 0) || !(daysRented > 0))return res.sendStatus(400);
 
     let validCustomer;
     let validGame;    
@@ -24,7 +24,9 @@ export async function postRentalsMiddleware(req, res, next){
     const gameExists = validGame.rows[0];
     const areAvailableGames = gameExists.stockTotal - gamesRented.rows.length;
 
-    if(!isValidCustomer || !gameExists || daysRented < 1 || areAvailableGames < 1) return res.sendStatus(400);
+    console.log(gameExists)
+
+    if(!isValidCustomer || !gameExists || areAvailableGames < 1) return res.sendStatus(400);
 
     next();
 }
