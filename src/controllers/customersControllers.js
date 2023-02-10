@@ -16,8 +16,8 @@ export async function getCustomersByIdController(req, res){
     const {id} = req.params;
 
     try{
-        const customers = await database.query('SELECT * FROM customers WHERE id=$1;', [id]);
-        return res.send(customers.rows);
+        const {rows} = await database.query('SELECT * FROM customers WHERE id=$1;', [id]);
+        return res.send(rows[0]);
 
     }catch(err){
         return res.status(500).send(err.message);

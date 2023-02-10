@@ -3,6 +3,9 @@ import database from '../database/database.js';
 export async function postRentalsMiddleware(req, res, next){
 
     const {customerId, gameId, daysRented} = req.body;
+
+    if(isNaN(customerId) || isNaN(gameId) || isNaN(daysRented))return res.sendStatus(400);
+
     let validCustomer;
     let validGame;    
     let gamesRented;
@@ -10,7 +13,7 @@ export async function postRentalsMiddleware(req, res, next){
     try{
         validCustomer = await database.query('SELECT * FROM customers WHERE id=$1;', [customerId]);
         validGame = await database.query('SELECT * FROM games WHERE id=$1;', [gameId]);
-        gamesRented = await database.query('SELECT * FROM rentals WHERE "gameId"=$1 AND "returnDate"=null', [gameId]);
+        gamesRented = await database.query('SELECT * FROM rentals WHERE "gameId"=$1 AND "returnDate" IS NULL;', [gameId]);
 
     }catch(err){
         return res.status(500).send(err.message);
