@@ -63,7 +63,20 @@ export async function endRentalsController(req, res){
     try{
         await database.query('UPDATE rentals SET returnDate=$1, delayFee=$2 WHERE id=$3;', [today, fee, id]);
         return res.sendStatus(200);
-        
+
+    }catch(err){
+        return res.status(500).send(err.message);
+    }
+}
+
+export async function deleteRentalController(req, res){
+
+    const {id} = req.params;
+
+    try{
+        await database.query('DELETE rentals WHERE id=$1;', [id]);
+        return res.sendStatus(200);
+
     }catch(err){
         return res.status(500).send(err.message);
     }

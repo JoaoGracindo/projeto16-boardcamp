@@ -9,7 +9,7 @@ const router = Router();
 router.get('/rentals', getRentalsController);
 router.post('/rentals', postRentalsMiddleware, postRentalsController);
 router.post('/rentals/:id/return', rentalVerificationMIddleware, endRentalsController);
-router.delete('/rentals/:id', rentalVerificationMIddleware)
+router.delete('/rentals/:id', rentalVerificationMIddleware);
 
 
 export default router;
