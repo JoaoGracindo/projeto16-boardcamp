@@ -26,7 +26,7 @@ export async function postRentalsMiddleware(req, res, next){
     next();
 }
 
-export async function rentalVerificationMIddleware(req, res, next){
+export async function rentalVerificationMiddleware(req, res, next){
 
     const {id} = req.params;
 
