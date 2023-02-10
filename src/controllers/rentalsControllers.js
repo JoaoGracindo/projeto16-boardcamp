@@ -45,3 +45,26 @@ export async function postRentalsController(req, res){
         return res.status(500).send(err.message);
     }
 }
+
+export async function endRentalsController(req, res){
+
+    const {id} = req.params;
+    const {rent} = res.locals;
+    const today = dayjs().format('YYYY-MM-DD');
+
+    const {rentDate, daysRented, originalPrice} = rent;
+    const estimatedReturn = rentDate.add(Number(daysRented), 'day');
+
+    const delayedDays = today.diff(estimatedReturn, 'day');
+
+    let fee = 0;
+    if(delayedDays > 0) fee = delayedDays * (originalPrice/daysRented);
+
+    try{
+        await database.query('UPDATE rentals SET returnDate=$1, delayFee=$2 WHERE id=$3;', [today, fee, id]);
+        return res.sendStatus(200);
+        
+    }catch(err){
+        return res.status(500).send(err.message);
+    }
+}

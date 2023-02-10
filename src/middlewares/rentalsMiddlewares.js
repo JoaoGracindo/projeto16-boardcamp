@@ -25,3 +25,17 @@ export async function postRentalsMiddleware(req, res, next){
 
     next();
 }
+
+export async function rentalVerificationMIddleware(req, res, next){
+
+    const {id} = req.params;
+
+    const {rows} = await database.query('SELECT * FROM rentals WHERE id=$1;', [id]);
+    if(!rows[0]) return res.sendStatus(404);
+
+    if(rows[0].returnDate !== null) return res.sendStatus(400);
+
+    res.locals.rent = rows[0];
+
+    next();
+}
